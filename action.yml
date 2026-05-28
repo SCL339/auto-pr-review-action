@@ -1,0 +1,77 @@
+name: 'Auto PR Review Action'
+description: 'Automated PR code review using local AI rules. Checks code style, bug patterns, security vulnerabilities, and performance issues, then posts comments on the PR.'
+author: 'shuchengle'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+inputs:
+  token:
+    description: 'GitHub token for posting PR comments'
+    required: false
+    default: ${{ github.token }}
+  target:
+    description: 'Directory to scan (relative to workspace root)'
+    required: false
+    default: '.'
+  fail-on-error:
+    description: 'Fail the workflow if errors are found (true/false)'
+    required: false
+    default: 'true'
+  config:
+    description: 'Path to custom rules config file'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Run code reviewer
+      shell: bash
+      id: review
+      working-directory: ${{ github.workspace }}
+      run: |
+        REVIEW_OUTPUT=$(node "${{ github.action_path }}/dist/reviewer.js" "${{ inputs.target }}" /tmp/review-output.md)
+        echo "review<<EOF" >> $GITHUB_OUTPUT
+        echo "$REVIEW_OUTPUT" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        echo "issue_count=$(grep -c '🔴' /tmp/review-output.md || true)" >> $GITHUB_OUTPUT
+    - name: Post PR Comment
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.token }}
+        script: |
+          const fs = require('fs');
+          const review = fs.readFileSync('/tmp/review-output.md', 'utf-8');
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number
+          });
+          const botComment = comments.find(c =>
+            c.user.type === 'Bot' && c.body.includes('Auto PR Review Results')
+          );
+          if (botComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: review
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: review
+            });
+          }
+    - name: Fail on error
+      if: inputs.fail-on-error == 'true' && steps.review.outputs.issue_count != '0'
+      shell: bash
+      run: |
+        echo "❌ Found code quality issues. Check PR review comment for details."
+        exit 1

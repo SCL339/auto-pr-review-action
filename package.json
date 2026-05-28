@@ -1,0 +1,31 @@
+{
+  "name": "auto-pr-review-action",
+  "version": "1.0.0",
+  "description": "Automated PR review GitHub Action. Checks code style, detects common bug patterns, security vulnerabilities, and performance issues using local AI rules.",
+  "main": "dist/reviewer.js",
+  "keywords": [
+    "github-actions",
+    "code-review",
+    "automation",
+    "pr-review",
+    "ci-cd",
+    "code-quality",
+    "linting",
+    "security",
+    "static-analysis"
+  ],
+  "author": "shuchengle",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shuchengle/auto-pr-review-action.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shuchengle/auto-pr-review-action/issues"
+  },
+  "homepage": "https://github.com/shuchengle/auto-pr-review-action#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {}
+}
