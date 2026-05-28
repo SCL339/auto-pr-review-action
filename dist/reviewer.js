@@ -228,7 +228,7 @@ function generateReview(allResults) {
   }
 
   output += `---\n\n`;
-  output += `_Powered by [auto-pr-review-action](https://github.com/shuchengle/auto-pr-review-action) — part of [SCL339](https://github.com/shuchengle) project suite._\n`;
+  output += `_Powered by [auto-pr-review-action](https://github.com/SCL339/auto-pr-review-action) — part of [SCL339](https://github.com/SCL339) project suite._\n`;
 
   return output;
 }

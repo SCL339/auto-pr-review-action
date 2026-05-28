@@ -2,9 +2,9 @@
 
 > 🤖 **Automated PR Code Review using AI Rules** — Catch code style issues, bug patterns, security vulnerabilities, and performance problems before they hit production.
 
-[![GitHub](https://img.shields.io/github/v/release/shuchengle/auto-pr-review-action)](https://github.com/shuchengle/auto-pr-review-action/releases)
-[![GitHub](https://img.shields.io/github/license/shuchengle/auto-pr-review-action)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/shuchengle/auto-pr-review-action/pulls)
+[![GitHub](https://img.shields.io/github/v/release/SCL339/auto-pr-review-action)](https://github.com/SCL339/auto-pr-review-action/releases)
+[![GitHub](https://img.shields.io/github/license/SCL339/auto-pr-review-action)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SCL339/auto-pr-review-action/pulls)
 
 ---
 
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: shuchengle/auto-pr-review-action@v1
+      -      uses: SCL339/auto-pr-review-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -95,8 +95,8 @@ Create a `.pr-reviewer.json` in your repo:
 
 ## 🔗 Related SCL339 Projects
 
-- [**scl339-skill-pack**](https://github.com/shuchengle/scl339-skill-pack) — AI coding assistant skill pack with 12+ skills for Claude Code, Codex, and Cursor
-- [**token-saver**](https://github.com/shuchengle/scl339-token-saver) — LLM token optimization CLI tool to reduce API costs
+- [**scl339-skill-pack**](https://github.com/SCL339/scl339-skill-pack) — AI coding assistant skill pack with 12+ skills for Claude Code, Codex, and Cursor
+- [**token-saver**](https://github.com/SCL339/scl339-token-saver) — LLM token optimization CLI tool to reduce API costs
 
 ## 📄 License
 
